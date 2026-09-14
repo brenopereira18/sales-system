@@ -1,0 +1,13 @@
+services:
+    postgres:
+        image: postgres:17.4-alpine
+        container_name: db_sales_system
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_MULTIPLE_DATABASES: systemProducts, systemClients, systemOrders
+        ports:
+            - "5555:5432"
+        volumes:
+            -   ./data:/var/lib/postgresql/data
