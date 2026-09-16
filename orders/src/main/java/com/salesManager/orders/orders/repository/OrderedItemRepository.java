@@ -1,0 +1,7 @@
+package com.salesManager.orders.orders.repository;
+
+import com.salesManager.orders.orders.model.OrderedItem;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderedItemRepository extends JpaRepository<OrderedItem, Long> {
+}
