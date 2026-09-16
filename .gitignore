@@ -1,8 +1,12 @@
 HELP.md
 target/
+out/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Database runtime data
+salesManager/database/data/
 
 ### STS ###
 .apt_generated
