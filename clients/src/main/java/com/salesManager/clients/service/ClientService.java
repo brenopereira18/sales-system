@@ -3,12 +3,13 @@ package com.salesManager.clients.service;
 import com.salesManager.clients.model.Client;
 import com.salesManager.clients.repository.ClientRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ClientService {
 
     private final ClientRepository clientRepository;
