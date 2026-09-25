@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Order {
 
     @Id
@@ -46,4 +46,10 @@ public class Order {
 
     @Column(name = "url_nf")
     private String urlNf;
+
+    @Transient
+    private PaymentData paymentData;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderedItem> items;
 }
