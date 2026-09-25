@@ -13,15 +13,15 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class OrderedItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "order_id", nullable = false)
-    private Long orderId;
+    @JoinColumn(name = "order_id")
+    @ManyToOne
+    private Order order;
 
     @Column(name = "product_id", nullable = false)
     private Long productId;
