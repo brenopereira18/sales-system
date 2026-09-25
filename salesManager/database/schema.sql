@@ -45,7 +45,7 @@ create table ordered_Item
 (
     id         serial         not null primary key,
     order_id   bigint         not null references orders (id),
-    product_is bigint         not null,
+    product_id bigint         not null,
     quantity   int            not null,
     unit_value decimal(16, 2) not null
 );
