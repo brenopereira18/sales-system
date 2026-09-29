@@ -23,6 +23,6 @@ public class ClientController {
     public ResponseEntity<Client> getClientById(@PathVariable("id") Long id) {
         return clientService.getClientById(id)
             .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.noContent().build());
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
