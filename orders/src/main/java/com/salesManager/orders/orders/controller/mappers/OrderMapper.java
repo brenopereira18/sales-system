@@ -3,7 +3,7 @@ package com.salesManager.orders.orders.controller.mappers;
 import com.salesManager.orders.orders.controller.dto.NewOrderDTO;
 import com.salesManager.orders.orders.controller.dto.OrderedItemDTO;
 import com.salesManager.orders.orders.model.Order;
-import com.salesManager.orders.orders.model.OrderStatus;
+import com.salesManager.orders.orders.model.enums.OrderStatus;
 import com.salesManager.orders.orders.model.OrderedItem;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;

@@ -1,10 +1,10 @@
 package com.salesManager.orders.orders.model;
 
+import com.salesManager.orders.orders.model.enums.OrderStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

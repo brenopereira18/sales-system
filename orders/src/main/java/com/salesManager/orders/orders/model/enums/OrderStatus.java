@@ -1,4 +1,4 @@
-package com.salesManager.orders.orders.model;
+package com.salesManager.orders.orders.model.enums;
 
 public enum OrderStatus {
     REALIZED,
