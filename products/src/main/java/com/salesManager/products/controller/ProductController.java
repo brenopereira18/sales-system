@@ -23,6 +23,6 @@ public class ProductController {
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
         return productService.getProductById(id)
             .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.noContent().build());
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
