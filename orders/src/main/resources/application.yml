@@ -25,3 +25,10 @@ salesManager:
         url: 'http://localhost:8081'
       clients:
         url: 'http://localhost:8082'
+  config:
+    kafka:
+      server-url: 'localhost:9092'
+      topics:
+        paid-orders: 'paid-orders'
+        invoiced-orders: 'invoiced-orders'
+        orders-sent: 'orders-sent'
