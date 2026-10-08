@@ -1,8 +1,13 @@
 package com.salesManager.orders.orders.service;
 
+import com.salesManager.orders.orders.client.ClientServiceClient;
 import com.salesManager.orders.orders.client.CustomerBankingService;
+import com.salesManager.orders.orders.client.ProductsClient;
+import com.salesManager.orders.orders.client.representation.ClientRepresentation;
+import com.salesManager.orders.orders.client.representation.ProductRepresentation;
 import com.salesManager.orders.orders.exception.ResourceNotFoundException;
 import com.salesManager.orders.orders.model.Order;
+import com.salesManager.orders.orders.model.OrderedItem;
 import com.salesManager.orders.orders.model.PaymentData;
 import com.salesManager.orders.orders.model.enums.OrderStatus;
 import com.salesManager.orders.orders.model.enums.PaymentType;
@@ -12,7 +17,11 @@ import com.salesManager.orders.orders.validator.OrderValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +32,8 @@ public class OrderService {
     private final OrderedItemRepository orderedItemRepository;
     private final OrderValidator orderValidator;
     private final CustomerBankingService customerBankingService;
+    private final ClientServiceClient apiClient;
+    private final ProductsClient apiProduct;
 
     @Transactional
     public Order createOrder(Order order) {
@@ -77,5 +88,34 @@ public class OrderService {
         order.setPaymentKey(newPaymentKey);
 
         orderRepository.save(order);
+    }
+
+    public Order getCompleteOrderData(Long id) {
+        Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + id));
+
+        getDataClient(order);
+        getOrderItem(order);
+
+        return order;
+    }
+
+    private void getDataClient(Order order) {
+        Long id = order.getClientId();
+        ResponseEntity<ClientRepresentation> response = apiClient.getClientById(id);
+        order.setDataClient(response.getBody());
+
+    }
+
+    private void getOrderItem(Order order) {
+        List<OrderedItem> itens = orderedItemRepository.findByOrder(order);
+        order.setItems(itens);
+        order.getItems().forEach(this::getDataProduct);
+    }
+
+    private void getDataProduct(OrderedItem item) {
+        Long productId = item.getProductId();
+        ResponseEntity<ProductRepresentation> response = apiProduct.getProductById(productId);
+        item.setName(response.getBody().name());
     }
 }

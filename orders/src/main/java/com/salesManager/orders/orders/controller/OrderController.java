@@ -3,12 +3,17 @@ package com.salesManager.orders.orders.controller;
 import com.salesManager.orders.orders.controller.dto.NewOrderDTO;
 import com.salesManager.orders.orders.controller.dto.PaymentDataDTO;
 import com.salesManager.orders.orders.controller.mappers.OrderMapper;
+import com.salesManager.orders.orders.controller.mappers.OrderedItemMapper;
 import com.salesManager.orders.orders.exception.ResourceNotFoundException;
 import com.salesManager.orders.orders.exception.ValidationException;
 import com.salesManager.orders.orders.model.ErrorResponse;
+import com.salesManager.orders.orders.model.Order;
+import com.salesManager.orders.orders.publisher.DetailOrderMapper;
+import com.salesManager.orders.orders.publisher.representation.DetailOrderRepresentation;
 import com.salesManager.orders.orders.service.OrderService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +24,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final OrderMapper mapper;
+    private final DetailOrderMapper detailOrderMapper;
 
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody NewOrderDTO newOrderDTO) {
@@ -39,7 +45,14 @@ public class OrderController {
             return ResponseEntity.noContent().build();
         } catch (ResourceNotFoundException e) {
             ErrorResponse error = new ErrorResponse("Order not found.", "orderId", e.getMessage());
-            return ResponseEntity.badRequest().body(error);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<DetailOrderRepresentation> getDetailsOrder(@PathVariable Long id) {
+        Order order = orderService.getCompleteOrderData(id);
+        DetailOrderRepresentation response = detailOrderMapper.map(order);
+        return ResponseEntity.ok(response);
     }
 }
