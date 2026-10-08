@@ -1,5 +1,6 @@
 package com.salesManager.orders.orders.model;
 
+import com.salesManager.orders.orders.client.representation.ClientRepresentation;
 import com.salesManager.orders.orders.model.enums.OrderStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -52,4 +53,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<OrderedItem> items;
+
+    @Transient
+    private ClientRepresentation dataClient;
 }
